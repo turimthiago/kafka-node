@@ -1,0 +1,10 @@
+docker exec -it broker-tutorial bash
+kafka-topics --list --bootstrap-server localhost:9092 // Lista topicos
+kafka-topics --create --bootstrap-server localhost:9092 --partitions 3 --replication-factor 1 --topic notification-email-3-1 //cria tópico
+kafka-topics --describe --bootstrap-server localhost:9092 notification-email-3-1 // lista detalhes do tópico
+kafka-console-producer --broker-list localhost:9092 --topic notification-email-3-1 //inicia console para envio de mensagem
+kafka-console-consumer --bootstrap-server localhost:9092 --topic notification-email-3-1 // inicia console para recebimento de mensagem
+
+kafka-console-consumer --bootstrap-server localhost:9092 --topic notification-email-3-1 --from--beginning // inicia consumer redebendo todas as mensagens registradas
+kafka-console-consumer --bootstrap-server localhost:9092 --topic notification-email-3-1 --group grupo-email-1 //iniciar consumer em um grupo específico
+kafka-consumer-groups --group grupo-email-1 --bootstrap-server localhost:9092 --describe //lista detalhe do grupo
