@@ -6,9 +6,12 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-
   kafka:
     image: confluentinc/cp-kafka:latest
+    volumes:
+      - ./kafka:/kafka
+    command: >
+      bash -c "chmod +x && kafka-topics --create --bootstrap-server localhost:9092 --partitions 3 --replication-factor 1 --topic notification-email-3-1"
     depends_on:
       - zookeeper
     ports:
@@ -22,3 +25,16 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  #email-notification:
+   # image: node:12
+#    depends_on: 
+ #     - kafka
+ #   working_dir: /usr/src/email-notification/
+ #   restart: always
+ #   command: bash -c "npm install --only=prod && npm run start"
+ #   volumes:
+ #     - ./email-notification/src/:/usr/src/email-notification/src/
+ #     - ./email-notification/package.json:/usr/src/email-notification/package.json
+ #   ports:
+ #     - "5050:5050"
+  #invoice-app:
